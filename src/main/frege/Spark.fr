@@ -1,0 +1,19 @@
+module Spark where
+
+data SparkContext = native org.apache.spark.SparkContext where
+  native new :: Mutable s SparkConf -> STMutable s SparkContext
+  native textFile :: Mutable s SparkContext -> String -> Int -> ST s (RDD String)
+
+data SparkConf = native org.apache.spark.SparkConf where
+  native new :: () -> STMutable s SparkConf
+  native setMaster :: Mutable s SparkConf -> String -> STMutable s SparkConf
+  native setAppName :: Mutable s SparkConf -> String -> STMutable s SparkConf
+
+data RDD a = pure native org.apache.spark.rdd.RDD where
+  pure native count :: RDD a -> Long
+
+main _ = do
+  conf <- SparkConf.new () >>= flip SparkConf.setMaster "local[4]" >>= flip SparkConf.setAppName "Frege"
+  sc <- SparkContext.new conf
+  rdd <- sc.textFile "/tmp/input.txt" 2
+  println rdd.count
