@@ -1,0 +1,5 @@
+package frege.java.spark.sql.Column where
+
+data Column = pure native org.apache.spark.sql.Column where
+  pure native new :: String -> Column
+  pure native as :: Column -> String -> Column

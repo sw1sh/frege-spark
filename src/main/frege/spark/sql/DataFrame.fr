@@ -1,0 +1,21 @@
+package frege.java.spark.sql.DataFrame where
+
+import frege.java.spark.sql.Column
+
+data DataFrame = native org.apache.spark.sql.DataFrame where
+  native write :: Mutable s DataFrame -> STMutable s DataFrameWriter
+  native join :: Mutable s DataFrame -> Mutable s DataFrame -> Column -> STMutable s DataFrame
+              |  Mutable s DataFrame -> Mutable s DataFrame -> String -> STMutable s DataFrame
+              |  Mutable s DataFrame -> Mutable s DataFrame -> Column -> String -> STMutable s DataFrame
+  native withColumnRenamed :: Mutable s DataFrame -> String -> String -> STMutable s DataFrame
+
+data DataFrameReader = native org.apache.spark.sql.DataFrameReader where
+  native format :: Mutable s DataFrameReader -> String -> STMutable s DataFrameReader
+  native option :: Mutable s DataFrameReader -> String -> String -> STMutable s DataFrameReader
+  native load :: Mutable s DataFrameReader -> String -> STMutable s DataFrame
+
+data DataFrameWriter = native org.apache.spark.sql.DataFrameWriter where
+  native format :: Mutable s DataFrameWriter -> String -> STMutable s DataFrameWriter
+  native mode :: Mutable s DataFrameWriter -> String -> STMutable s DataFrameWriter
+  native option :: Mutable s DataFrameWriter -> String -> String -> STMutable s DataFrameWriter
+  native save :: Mutable s DataFrameWriter -> String -> ST s ()

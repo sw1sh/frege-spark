@@ -1,0 +1,8 @@
+package frege.java.spark.sql.SQLContext where
+
+import frege.java.spark.SparkContext
+import frege.java.spark.sql.DataFrame
+
+data SQLContext = native org.apache.spark.sql.SQLContext where
+  native new :: Mutable s SparkContext -> STMutable s SQLContext
+  native read :: Mutable s SQLContext -> STMutable s DataFrameReader
