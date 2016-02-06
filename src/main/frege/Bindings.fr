@@ -1,0 +1,5 @@
+package frege.java.spark.Bindings where
+
+import frege.java.spark.SparkConf public
+import frege.java.spark.SparkContext public
+import frege.java.spark.RDD public

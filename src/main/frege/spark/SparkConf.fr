@@ -1,0 +1,6 @@
+package frege.java.spark.SparkConf where
+
+data SparkConf = native org.apache.spark.SparkConf where
+  native new :: () -> STMutable s SparkConf
+  native setMaster :: Mutable s SparkConf -> String -> STMutable s SparkConf
+  native setAppName :: Mutable s SparkConf -> String -> STMutable s SparkConf

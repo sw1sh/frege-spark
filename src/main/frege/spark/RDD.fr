@@ -1,0 +1,4 @@
+package frege.java.spark.RDD where
+
+data RDD a = pure native org.apache.spark.rdd.RDD where
+  pure native count :: RDD a -> Long
