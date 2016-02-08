@@ -1,19 +1,19 @@
 package java_helpers;
 
-import scala.Function1;
-import scala.runtime.AbstractFunction1;
-import frege.runtime.Lambda;
-import java.lang.Object;
+import frege.runtime.*;
+import org.apache.spark.api.java.function.Function;
 
 public class Helpers {
-  public static <A, B> Function1<A, B> func(final Lambda f) {
-    return new AbstractFunction1<A, B>() {
-      public B apply(A x) {
+  public static Function<String, Boolean> equalsOne = new Function<String, Boolean>() {
+    public Boolean call(String s) {
+      return s.equals("1");
+    }
+  };
+  public static <A, B> Function<A, B> lambdaToFunction(final Lambda f) {
+    return new Function<A, B>() {
+      public B call(A x) {
         return f.apply(x).result().forced();
       }
     };
-  }
-  public static <A> Object toObject(final A x) {
-    return x;
   }
 }

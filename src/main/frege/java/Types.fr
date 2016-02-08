@@ -1,0 +1,4 @@
+package frege.java.Types where
+
+data Function a b = pure native "org.apache.spark.api.java.function.Function" where
+  pure native fromLambda "java_helpers.Helpers.lambdaToFunction" :: (a -> b) -> Function a b

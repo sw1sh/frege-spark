@@ -3,13 +3,16 @@ module Example where
 import frege.java.spark.Bindings
 import frege.java.spark.sql.Bindings as SQL (Row, SQLContext)
 
-import frege.scala.Types
+import frege.java.Types
+
+native equalsOne "java_helpers.Helpers.equalsOne" :: Function String Bool
 
 main _ = do
   conf <- SparkConf.new () >>= _.setMaster "local[4]" >>= _.setAppName "Frege"
   sc <- SparkContext.new conf
-  rdd <- sc.textFile "input/input.txt" 2
-  println =<< rdd.filter(Function1.fromLambda (toObject . (== "1"))) >>= _.count
+  javaRDD :: Mutable s (JavaRDD String) <- sc.textFile "input/input.txt" 2 >>= _.toJavaRDD
+  let !f = Function.fromLambda (== "1")
+  println =<< javaRDD.filter equalsOne >>= _.count
 
   sqlContext <- SQLContext.new sc
   df1 <- sqlContext.read >>=

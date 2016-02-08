@@ -4,15 +4,12 @@ import frege.java.spark.sql.Column
 import frege.java.spark.sql.Row
 import frege.java.spark.RDD
 
-import frege.scala.Types
-
 data DataFrame = native org.apache.spark.sql.DataFrame where
   native write :: Mutable s DataFrame -> STMutable s DataFrameWriter
   native join :: Mutable s DataFrame -> Mutable s DataFrame -> Column -> STMutable s DataFrame
               |  Mutable s DataFrame -> Mutable s DataFrame -> String -> STMutable s DataFrame
               |  Mutable s DataFrame -> Mutable s DataFrame -> Column -> String -> STMutable s DataFrame
   native withColumnRenamed :: Mutable s DataFrame -> String -> String -> STMutable s DataFrame
-  native map :: Mutable s DataFrame -> Function1 (Mutable s Row) a -> ClassTag a -> STMutable s (RDD a)
 
 data DataFrameReader = native org.apache.spark.sql.DataFrameReader where
   native format :: Mutable s DataFrameReader -> String -> STMutable s DataFrameReader
