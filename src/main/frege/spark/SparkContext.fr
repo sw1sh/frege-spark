@@ -5,4 +5,4 @@ import frege.java.spark.RDD
 
 data SparkContext = native org.apache.spark.SparkContext where
   native new :: Mutable s SparkConf -> STMutable s SparkContext
-  native textFile :: Mutable s SparkContext -> String -> Int -> ST s (RDD String)
+  native textFile :: Mutable s SparkContext -> String -> Int -> STMutable s (RDD String)

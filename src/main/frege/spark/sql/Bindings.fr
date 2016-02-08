@@ -2,4 +2,5 @@ package frege.java.spark.sql.Bindings where
 
 import frege.java.spark.sql.SQLContext public
 import frege.java.spark.sql.Column public
+import frege.java.spark.sql.Row public
 import frege.java.spark.sql.DataFrame public

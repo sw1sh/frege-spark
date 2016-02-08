@@ -1,13 +1,15 @@
 module Example where
 
 import frege.java.spark.Bindings
-import frege.java.spark.sql.Bindings as SQL (SQLContext)
+import frege.java.spark.sql.Bindings as SQL (Row, SQLContext)
+
+import frege.scala.Types
 
 main _ = do
   conf <- SparkConf.new () >>= _.setMaster "local[4]" >>= _.setAppName "Frege"
   sc <- SparkContext.new conf
   rdd <- sc.textFile "/tmp/input.txt" 2
-  println rdd.count
+  println =<< rdd.filter(Function1.fromLambda (toObject . (== "1"))) >>= _.count
 
   sqlContext <- SQLContext.new sc
   df1 <- sqlContext.read >>=
@@ -23,5 +25,12 @@ main _ = do
     _.withColumnRenamed "C2" "C3"
 
   join <- df1.join df2 "C1"
+
+  Right c <- Class.forName "String"
+--  let classTag = makeTag c
+
+  --xs <- join.map functionConverters.asScalaFromFunction(_.getAs "C2") classTag >>= _.collect
+
+  --println xs.getClass.getName
 
   join.write >>= _.mode "overwrite" >>= _.save "/tmp/output.parquet"

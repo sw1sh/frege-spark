@@ -1,0 +1,9 @@
+package frege.scala.Types where
+
+data ClassTag a = pure native scala.reflect.ClassTag
+data Function1 a b = pure native scala.Function1 where
+  pure native fromLambda "java_helpers.Helpers.func" :: (a -> b) -> Function1 a b
+
+pure native toObject "java_helpers.Helpers.toObject" :: a -> Object
+
+--pure native makeTag "scala.reflect.ClassTag$.MODULE$.apply" :: Class a -> ClassTag a

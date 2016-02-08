@@ -1,0 +1,4 @@
+package frege.java.spark.sql.Row where
+
+data Row = native org.apache.spark.sql.Row where
+  native getAs :: Mutable s Row -> String -> ST s a

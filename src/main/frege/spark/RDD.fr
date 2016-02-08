@@ -1,4 +1,12 @@
 package frege.java.spark.RDD where
 
-data RDD a = pure native org.apache.spark.rdd.RDD where
-  pure native count :: RDD a -> Long
+import frege.java.spark.sql.Row
+
+import frege.scala.Types
+
+data RDD a = native org.apache.spark.rdd.RDD where
+  native count :: Mutable s (RDD a) -> ST s Long
+  native map :: Mutable s (RDD a) -> Function1 (Mutable s Row) a -> ClassTag a -> STMutable s (RDD a)
+  native saveAsTextFile :: Mutable s (RDD a) -> String -> ST s ()
+  native collect :: Mutable s (RDD a) -> ST s Object
+  native filter :: Mutable s (RDD a) -> Function1 a Object -> STMutable s (RDD a)
