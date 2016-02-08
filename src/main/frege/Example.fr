@@ -8,7 +8,7 @@ import frege.scala.Types
 main _ = do
   conf <- SparkConf.new () >>= _.setMaster "local[4]" >>= _.setAppName "Frege"
   sc <- SparkContext.new conf
-  rdd <- sc.textFile "/tmp/input.txt" 2
+  rdd <- sc.textFile "input/input.txt" 2
   println =<< rdd.filter(Function1.fromLambda (toObject . (== "1"))) >>= _.count
 
   sqlContext <- SQLContext.new sc
@@ -16,17 +16,17 @@ main _ = do
     _.format "com.databricks.spark.csv" >>=
     _.option "header" "true" >>=
     _.option "inferSchema" "true" >>=
-    _.load "/tmp/input1.csv"
+    _.load "input/input1.csv"
 
   df2 <- sqlContext.read >>=
     _.format "com.databricks.spark.csv" >>=
     _.option "header" "true" >>=
-    _.load "/tmp/input2.csv" >>=
+    _.load "input/input2.csv" >>=
     _.withColumnRenamed "C2" "C3"
 
   join <- df1.join df2 "C1"
 
-  Right c <- Class.forName "String"
+--  Right c <- Class.forName "String"
 --  let classTag = makeTag c
 
   --xs <- join.map functionConverters.asScalaFromFunction(_.getAs "C2") classTag >>= _.collect
